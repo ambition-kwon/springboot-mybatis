@@ -2,7 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="khw.jejunu.mybatis.mapper.UserMapper">
-    <select id="findAll" resultType="khw.jejunu.mybatis.domain.User">
+    <select id="findAll" resultType="khw.jejunu.mybatis.dto.UserDTO">
         select * from users
     </select>
+
+    <select id="findById" resultType="khw.jejunu.mybatis.dto.UserDTO">
+        select * from users where id=#{id}
+    </select>
+
+    <insert id="save" parameterType="khw.jejunu.mybatis.dto.UserDTO">
+        INSERT INTO users (email, password, created_at, last_login_date)
+        VALUES (#{email}, #{password}, NOW(), NOW())
+        ON DUPLICATE KEY UPDATE last_login_date = NOW()
+    </insert>
+
+    <delete id="deleteById">
+        delete from users where id=#{id}
+    </delete>
 </mapper>
